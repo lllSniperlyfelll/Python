@@ -1,0 +1,10 @@
+Project name :CrimePedia
+
+
+Credits:-
+1.Rajpurohit Chandan Singh :-(CO64)
+2.Rait Pravleen Singh:-(CO63)
+3.Harish Unnikrishnan:-(CO70)
+
+
+Made with:Python/Tkinter(class)

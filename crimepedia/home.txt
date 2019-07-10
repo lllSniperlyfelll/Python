@@ -1,0 +1,16 @@
+!!Hello Welcome to CrimePedia!!
+
+This application hepls user to find out the Sections for crime's committed and also find punishments related to it.
+
+This application has four options viz "HOME (current page)" here user is given a tutorial of the app.
+
+Second is the "INFORMATION" page where user can read and get a information of indian penal code
+
+Third is the "CRIMES AND SECTIONS" page where user can easily select number of crimes and get a proper information
+of the sections associated to crime and the punishment related to it.
+
+Fourth is the "EDIT SECTIONS FILE" page this is only accessible to the admin that is the judges where admin can edit the ipc
+section files.
+
+Fifth is the "ABOUT" page that gives a information about the developers and their contribution to this project along with
+the information about the technology used for this project 
