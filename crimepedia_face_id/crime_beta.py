@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import datetime
 from new_user import *
+from face_auth import *
 
 def is_criminal(username):
 	useracop=''
@@ -226,39 +227,59 @@ def bootwindow():
 	root.title("                                                                                                              WELCOME TO CRIMEPEDIA")
 	def checker():
 		id=[]
+		FA=FACE_AUTH()
 		with open("admin.txt","r") as f:
 			for line in f:
 				line=line.replace("\n",'')
 				id.append(line)
 		usernamestr=username.get()
-		#passwordstr=password.get()
-		passwordstr=""
 		print(id)
-		usernamestr=usernamestr+" "+passwordstr
 		print(usernamestr)
 		length1=len(id)
-		flaggg=0
+		flaggg=1
+
 		try:
 			for i in range (0,length1) :
-				destr=de_encryption(id[i])
+				destr=(id[i])
 				if(i==0):
-					if usernamestr==de_encryption(id[i]):
+					if usernamestr==(id[i]):
+						name_file=open("current_user.txt","w")
+						name_file.write(usernamestr)
+						name_file.close()
+						print("Written usernamestr in current_user.txt ...")
+						#####needs to match face now###########
+						auth_status=FA.face_authenticate(usernamestr)
+						print(auth_status)
+						if(auth_status == True):
+							flaggg=0
+						else:
+							flaggg=1
+						######################################
 						is_criminal(usernamestr)
 						edit_logs(destr)
-						flaggg=0
 						root.destroy()
 						adminwindow()
-				elif usernamestr==de_encryption(id[i]):
+				elif usernamestr==(id[i]):
+					name_file=open("current_user.txt","w")
+					name_file.write(usernamestr)
+					name_file.close()
+					print("Written usernamestr in current_user.txt ...")
+					#needs to match face now
+					#####needs to match face now###########
+					auth_status=FA.face_authenticate(usernamestr)
+					print(auth_status)
+					if(auth_status == True):
+						flaggg=0
+					else:
+						flaggg=1
+					######################################
 					is_criminal(usernamestr)
-					flaggg=0
+					#flaggg=0
 					edit_logs(destr)
 					root.destroy()
 					userwindow()
-				else:	
-					flaggg=1
-					#print("ERROR")
 			if(flaggg==1):
-				errorlabel=Label(root,text="Invalid Username or Passowrd",fg="white",bg="crimson",font=("Times new Roman",11),justify="center")
+				errorlabel=Label(root,text="Invalid Username or Face id error",fg="white",bg="crimson",font=("Times new Roman",11),justify="center")
 				errorlabel.place(x=330,y=500)
 		except:
 			print("")
@@ -301,7 +322,13 @@ def adminwindow():
 	def recurse():
 		root.destroy()
 		adminwindow()
-	welcome=Label(root,text="WELCOME ADMIN !",font=("Elephant",15),bg=check_theme(),fg="black",borderwidth=0)
+	name_file=open("current_user.txt","r")
+	name=name_file.read()
+	name_file.close()
+	name_file=open("current_user.txt","w")
+	name_file.write("")
+	name_file.close()
+	welcome=Label(root,text="WELCOME "+name,font=("Elephant",15),bg=check_theme(),fg="black",borderwidth=0)
 	toolbar=Frame(root,bg=check_theme())
 	home=Button(toolbar,text="Home",fg="black",width=5,bg=check_theme(),borderwidth=0,font=("Times new Roman Bold",15),command=recurse)
 	strtest="Crimes and Sections"
@@ -348,7 +375,13 @@ def userwindow():
 	def recurse():
 		root2.destroy()
 		userwindow()
-	welcome = Label(root2, text="WELCOME USER !", font=("Elephant", 15), bg=check_theme(), fg="black",borderwidth=0)
+	name_file=open("current_user.txt","r")
+	name=name_file.read()
+	name_file.close()
+	name_file=open("current_user.txt","w")
+	name_file.write("")
+	name_file.close()
+	welcome = Label(root2, text="WELCOME "+name, font=("Elephant", 15), bg=check_theme(), fg="black",borderwidth=0)
 	toolbar=Frame(root2,bg=check_theme())
 	home=Button(toolbar,text="Home",fg="black",width=10,bg=check_theme(),borderwidth=0,font=("Times new Roman Bold",15),command=recurse)
 	strtest="Crimes and Sections"
