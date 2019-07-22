@@ -22,20 +22,28 @@ class NEW_FACE_CAPTURE:
 		root.withdraw()
 		messagebox.showinfo("Authentication"," Look at the camera ")
 		face_cascades=cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2.xml') # classifier
+		
 		cap=cv2.VideoCapture(0)
+		
 		i=1
 		username=self.getusername()
 		path="images/"+username	
+		
+
 		if not os.path.exists("/images/"+username):
 			print("dir present -> ",path)
 			os.mkdir(path)
+		
+
 		while True:
 			ret , frame = cap.read()
 			#grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # coz above usd classifer needs grey scale frames
 			faces = face_cascades.detectMultiScale(frame,scaleFactor=1.5,minNeighbors=5)
+
 			for (x ,y ,w ,h) in faces:
 				if(i>=10 and i<=12):
 					img_item=path+"/"+username+str(i)+".png"
+					
 					cv2.imwrite(img_item ,frame[y:y+h,x:x+w])
 				i+=1
 				rect_color=(255,0,0)
@@ -46,7 +54,13 @@ class NEW_FACE_CAPTURE:
 			cv2.imshow("test",frame)
 			if cv2.waitKey(27) & 0XFF == ord('q') or i>=36:
 				break
+
+
+
+
+
 		cap.release()
+		root.destroy()
 		cv2.destroyAllWindows()
 		messagebox.showinfo("Done!!","Try loggin in now")
 

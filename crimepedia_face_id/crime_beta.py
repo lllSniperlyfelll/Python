@@ -236,7 +236,7 @@ def bootwindow():
 		print(id)
 		print(usernamestr)
 		length1=len(id)
-		flaggg=1
+		flaggg=0
 
 		try:
 			for i in range (0,length1) :
@@ -246,43 +246,44 @@ def bootwindow():
 						name_file=open("current_user.txt","w")
 						name_file.write(usernamestr)
 						name_file.close()
-						print("Written usernamestr in current_user.txt ...")
+						print("Written admin usernamestr in current_user.txt ...")
 						#####needs to match face now###########
 						auth_status=FA.face_authenticate(usernamestr)
-						print(auth_status)
-						if(auth_status == True):
-							flaggg=0
-						else:
-							flaggg=1
-						######################################
+						#print(auth_status)
+						print("user status->",auth_status)
 						is_criminal(usernamestr)
 						edit_logs(destr)
-						root.destroy()
-						adminwindow()
+						if(len(auth_status)==1 and True in auth_status):
+							print("destroy bootwindow")
+							root.destroy()
+							print("Jump to adminwindow")
+							adminwindow()
+						elif(len(auth_status)==1 and False in auth_status):
+							messagebox.showinfo("Alert !",'''Error Login''')
+						print("ByPassed all conditions of bootwindow")
 				elif usernamestr==(id[i]):
 					name_file=open("current_user.txt","w")
 					name_file.write(usernamestr)
 					name_file.close()
-					print("Written usernamestr in current_user.txt ...")
+					print("Written user usernamestr in current_user.txt ...")
 					#needs to match face now
 					#####needs to match face now###########
 					auth_status=FA.face_authenticate(usernamestr)
-					print(auth_status)
-					if(auth_status == True):
-						flaggg=0
-					else:
-						flaggg=1
-					######################################
+					print("user status->",auth_status)
 					is_criminal(usernamestr)
-					#flaggg=0
-					edit_logs(destr)
-					root.destroy()
-					userwindow()
+					edit_logs(destr)						
+					if(len(auth_status)==1 and True in auth_status):
+						root.destroy()
+						userwindow()
+					elif(len(auth_status)==1 and False in auth_status):
+						messagebox.showinfo("Alert !",'''Error Login''')	
+				else:
+					flaggg=1
 			if(flaggg==1):
 				errorlabel=Label(root,text="Invalid Username or Face id error",fg="white",bg="crimson",font=("Times new Roman",11),justify="center")
 				errorlabel.place(x=330,y=500)
 		except:
-			print("")
+			print("Exception in bootwindow")
 	buttonok=Button(root,text="Done",height=1,width=10,command=checker,bg="#3D5AFE",fg="white",borderwidth=0)
 	newacc=Button(root,text="CREATE NEW ACCOUNT",height=1,width=len("		CREATE NEW ACCOUNT		"),command=newaccount,bg="#3D5AFE",fg="white",borderwidth=0,font=("Times new Roman",11))
 	username=Entry(root,width=40-5,borderwidth=0,font=("Times new Roman",11),fg="#3D5AFE")
@@ -305,6 +306,7 @@ def bootwindow():
 #""""ADMIN WINDOWS WITH EXTRA PERMISSIONS
 def adminwindow():
 	root=Tk()
+	print("Jumped to admin window")
 	root.configure(bg=check_theme())
 	width = 900
 	height = 600
@@ -328,7 +330,7 @@ def adminwindow():
 	name_file=open("current_user.txt","w")
 	name_file.write("")
 	name_file.close()
-	welcome=Label(root,text="WELCOME "+name,font=("Elephant",15),bg=check_theme(),fg="black",borderwidth=0)
+	welcome=Label(root,text="WELCOME "+name.upper(),font=("Elephant Bold",20),bg=check_theme(),fg="black",borderwidth=0)
 	toolbar=Frame(root,bg=check_theme())
 	home=Button(toolbar,text="Home",fg="black",width=5,bg=check_theme(),borderwidth=0,font=("Times new Roman Bold",15),command=recurse)
 	strtest="Crimes and Sections"
@@ -347,7 +349,7 @@ def adminwindow():
 	info.pack(side=LEFT,pady=20)
 	Editt.pack(side=LEFT,pady=20)
 	About.pack(side=LEFT, pady=20)
-	welcome.place(x=300,y=80)
+	welcome.place(x=260,y=80)
 	logs.pack(side=LEFT ,pady=20)
 	#settings.pack(x=900,y=600)
 	root.mainloop()
@@ -381,7 +383,7 @@ def userwindow():
 	name_file=open("current_user.txt","w")
 	name_file.write("")
 	name_file.close()
-	welcome = Label(root2, text="WELCOME "+name, font=("Elephant", 15), bg=check_theme(), fg="black",borderwidth=0)
+	welcome = Label(root2, text="WELCOME "+name.upper(), font=("Elephant Bold", 20), bg=check_theme(), fg="black",borderwidth=0)
 	toolbar=Frame(root2,bg=check_theme())
 	home=Button(toolbar,text="Home",fg="black",width=10,bg=check_theme(),borderwidth=0,font=("Times new Roman Bold",15),command=recurse)
 	strtest="Crimes and Sections"
@@ -394,7 +396,7 @@ def userwindow():
 	crimes.pack(side=LEFT, padx=20, pady=20)
 	info.pack(side=LEFT, padx=20, pady=20)
 	About.pack(side=LEFT, padx=20, pady=20)
-	welcome.place(x=300, y=80)
+	welcome.place(x=260,y=80)
 	root2.mainloop()
 
 
@@ -875,8 +877,8 @@ def check_data_file():
 
 
 #check_data_file()
-#bootwindow()
-bootwin()
+bootwindow()
+#bootwin()
 #infofn()
 #readsections()
 #about()
