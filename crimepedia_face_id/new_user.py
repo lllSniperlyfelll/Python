@@ -62,7 +62,6 @@ class NEW_FACE_CAPTURE:
 		cap.release()
 		root.destroy()
 		cv2.destroyAllWindows()
-		messagebox.showinfo("Done!!","Try loggin in now")
 
 
 
