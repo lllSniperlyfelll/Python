@@ -164,7 +164,8 @@ def newaccount():
 		flag=0
 		usernamestr=username.get()
 		#passwordstr=password.get()
-		answer=tkinter.messagebox.askquestion("Sure?","Continue to face id -> ")
+		#answer=tkinter.messagebox.askquestion("Sure?","Continue to face id -> ")
+		answer="yes"
 		if (answer=="yes"):
 			id=[]
 			with open("admin.txt","r") as f:
@@ -197,17 +198,29 @@ def newaccount():
 				NFC.capture_face()
 				tkinter.messagebox.showinfo("Done!!", "Account added!!")
 				root.destroy()
-
-	buttonok=Button(root,text="Face id",height=1,width=10,command=addnewinfo,bg="#3D5AFE",fg="white",borderwidth=0)
-	username=Entry(root,width=30+5,borderwidth=0,font=("Times new Roman",11),fg="#3D5AFE")
-	#password=Entry(root,width=30+5,show="*",font=("Times new Roman",11),borderwidth=0,fg="#3D5AFE")
-	userlabel=Label(root,text="New Username:-",fg="white",bg="#536DFE",font=("Times new Roman",11),justify="center")
-	#passwordlabel=Label(root,text="New Password:-",fg="white",bg="#536DFE",font=("Times new Roman",11),justify="center")
-	username.place(x=320,y=180)
-	userlabel.place(x=208,y=178)
+	buttonok=Button(root,text="Face Authentication",height=2,width=len("Face Authentication")+4,command=addnewinfo,bg="#3D5AFE",fg="white",relief=RIDGE,font=("Times new Roman Bolder",12))
+	#newacc=Button(root,relief=RIDGE,text="CREATE NEW ACCOUNT",height=1,width=len("		CREATE NEW ACCOUNT		"),command=newaccount,bg="#3D5AFE",fg="white",font=("Times new Roman Bold",11))
+	username=Entry(root,width=40-5,borderwidth=0,font=("Times new Roman Bold",13),fg="#000000")
+	#password=Entry(root,width=40-5,show="*",font=("Times new Roman",11),borderwidth=0,fg="#3D5AFE")
+	userlabel=Label(root,text="Username:",fg="white",bg="#536DFE",font=("Times new Roman",12),justify="center")
+	#OR=Label(root,text="OR",fg="white",bg="#536DFE",font=("Times new Roman",13),justify="center")
+	#passwordlabel=Label(root,text="Password:-",fg="white",bg="#536DFE",font=("Times new Roman",11),justify="center")
+	username.place(x=270,y=180)
+	userlabel.place(x=190,y=178)
 	#password.place(x=320,y=240)
-	#passwordlabel.place(x=208,y=240)
-	buttonok.place(x=380,y=290)
+	#passwordlabel.place(x=238,y=240)
+	buttonok.place(x=310,y=290)
+
+	# buttonok=Button(root,text="Face id",height=1,width=10,command=addnewinfo,bg="#3D5AFE",fg="white",borderwidth=0)
+	# username=Entry(root,width=40-5,borderwidth=0,font=("Times new Roman Bold",13),fg="#000000")
+	# #password=Entry(root,width=30+5,show="*",font=("Times new Roman",11),borderwidth=0,fg="#3D5AFE")
+	# userlabel=Label(root,text="New Username:-",fg="white",bg="#536DFE",font=("Times new Roman",11),justify="center")
+	# #passwordlabel=Label(root,text="New Password:-",fg="white",bg="#536DFE",font=("Times new Roman",11),justify="center")
+	# username.place(x=320,y=180)
+	# userlabel.place(x=208,y=178)
+	# #password.place(x=320,y=240)
+	# #passwordlabel.place(x=208,y=240)
+	# buttonok.place(x=380,y=290)
 	root.mainloop()
 
 
@@ -284,20 +297,20 @@ def bootwindow():
 				errorlabel.place(x=330,y=500)
 		except:
 			print("Exception in bootwindow")
-	buttonok=Button(root,text="Done",height=1,width=10,command=checker,bg="#3D5AFE",fg="white",borderwidth=0)
-	newacc=Button(root,text="CREATE NEW ACCOUNT",height=1,width=len("		CREATE NEW ACCOUNT		"),command=newaccount,bg="#3D5AFE",fg="white",borderwidth=0,font=("Times new Roman",11))
-	username=Entry(root,width=40-5,borderwidth=0,font=("Times new Roman",11),fg="#3D5AFE")
+	buttonok=Button(root,text="LOGIN",height=2,width=10,command=checker,bg="#3D5AFE",fg="white",relief=RIDGE,font=("Times new Roman Bolder",12))
+	newacc=Button(root,relief=RIDGE,text="CREATE NEW ACCOUNT",height=1,width=len("		CREATE NEW ACCOUNT		"),command=newaccount,bg="#3D5AFE",fg="white",font=("Times new Roman Bold",11))
+	username=Entry(root,width=40-5,borderwidth=0,font=("Times new Roman Bold",13),fg="#000000")
 	#password=Entry(root,width=40-5,show="*",font=("Times new Roman",11),borderwidth=0,fg="#3D5AFE")
-	userlabel=Label(root,text="Username:-",fg="white",bg="#536DFE",font=("Times new Roman",11),justify="center")
+	userlabel=Label(root,text="Username:",fg="white",bg="#536DFE",font=("Times new Roman",12),justify="center")
 	OR=Label(root,text="OR",fg="white",bg="#536DFE",font=("Times new Roman",13),justify="center")
 	#passwordlabel=Label(root,text="Password:-",fg="white",bg="#536DFE",font=("Times new Roman",11),justify="center")
-	username.place(x=320,y=180)
-	userlabel.place(x=238,y=178)
+	username.place(x=270,y=180)
+	userlabel.place(x=190,y=178)
 	#password.place(x=320,y=240)
 	#passwordlabel.place(x=238,y=240)
-	buttonok.place(x=380,y=290)
+	buttonok.place(x=370,y=290)
 	OR.place(x=400,y=350)
-	newacc.place(x=333,y=400)
+	newacc.place(x=322,y=400)
 	root.mainloop()
 
 
