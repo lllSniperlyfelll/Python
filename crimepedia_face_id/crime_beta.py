@@ -210,17 +210,6 @@ def newaccount():
 	#password.place(x=320,y=240)
 	#passwordlabel.place(x=238,y=240)
 	buttonok.place(x=310,y=290)
-
-	# buttonok=Button(root,text="Face id",height=1,width=10,command=addnewinfo,bg="#3D5AFE",fg="white",borderwidth=0)
-	# username=Entry(root,width=40-5,borderwidth=0,font=("Times new Roman Bold",13),fg="#000000")
-	# #password=Entry(root,width=30+5,show="*",font=("Times new Roman",11),borderwidth=0,fg="#3D5AFE")
-	# userlabel=Label(root,text="New Username:-",fg="white",bg="#536DFE",font=("Times new Roman",11),justify="center")
-	# #passwordlabel=Label(root,text="New Password:-",fg="white",bg="#536DFE",font=("Times new Roman",11),justify="center")
-	# username.place(x=320,y=180)
-	# userlabel.place(x=208,y=178)
-	# #password.place(x=320,y=240)
-	# #passwordlabel.place(x=208,y=240)
-	# buttonok.place(x=380,y=290)
 	root.mainloop()
 
 
@@ -251,52 +240,61 @@ def bootwindow():
 		length1=len(id)
 		flaggg=0
 
-		try:
-			for i in range (0,length1) :
-				destr=(id[i])
-				if(i==0):
-					if usernamestr==(id[i]):
-						name_file=open("current_user.txt","w")
-						name_file.write(usernamestr)
-						name_file.close()
-						print("Written admin usernamestr in current_user.txt ...")
-						#####needs to match face now###########
-						auth_status=FA.face_authenticate(usernamestr)
-						#print(auth_status)
-						print("user status->",auth_status)
-						is_criminal(usernamestr)
-						edit_logs(destr)
-						if(len(auth_status)==1 and True in auth_status):
-							print("destroy bootwindow")
-							root.destroy()
-							print("Jump to adminwindow")
-							adminwindow()
-						elif(len(auth_status)==1 and False in auth_status):
-							messagebox.showinfo("Alert !",'''Error Login''')
-						print("ByPassed all conditions of bootwindow")
-				elif usernamestr==(id[i]):
+
+		for i in range (0,length1) :
+			destr=(id[i])
+			if(i==0):
+				if usernamestr==(id[i]):
 					name_file=open("current_user.txt","w")
 					name_file.write(usernamestr)
 					name_file.close()
-					print("Written user usernamestr in current_user.txt ...")
-					#needs to match face now
+					print("Written admin usernamestr in current_user.txt ...")
 					#####needs to match face now###########
 					auth_status=FA.face_authenticate(usernamestr)
+						#print(auth_status)
 					print("user status->",auth_status)
 					is_criminal(usernamestr)
-					edit_logs(destr)						
+					edit_logs(destr)
 					if(len(auth_status)==1 and True in auth_status):
+						print("destroy bootwindow")
 						root.destroy()
-						userwindow()
+						flaggg=0
+						print("Jump to adminwindow")
+						adminwindow()
 					elif(len(auth_status)==1 and False in auth_status):
-						messagebox.showinfo("Alert !",'''Error Login''')	
-				else:
-					flaggg=1
-			if(flaggg==1):
-				errorlabel=Label(root,text="Invalid Username or Face id error",fg="white",bg="crimson",font=("Times new Roman",11),justify="center")
-				errorlabel.place(x=330,y=500)
-		except:
-			print("Exception in bootwindow")
+						messagebox.showinfo("Alert !",'''Error Login''')
+						print("ByPassed all conditions of bootwindow")
+					break
+			elif usernamestr==(id[i]):
+				name_file=open("current_user.txt","w")
+				name_file.write(usernamestr)
+				name_file.close()
+				print("Written user usernamestr in current_user.txt ...")
+					#needs to match face now
+					#####needs to match face now###########
+				auth_status=FA.face_authenticate(usernamestr)
+				print("user status->",auth_status)
+				is_criminal(usernamestr)
+				edit_logs(destr)						
+				if(len(auth_status)==1 and True in auth_status):
+					root.destroy()
+					flaggg=0
+					userwindow()
+				elif(len(auth_status)==1 and False in auth_status):
+					messagebox.showinfo("Alert !",'''Error Login''')	
+				break
+			elif usernamestr not in id:
+				flaggg=1
+				break
+			
+			print("Flaggg from  bootwindow  -> ",flaggg)
+		if(flaggg==1):
+			errorlabel=Label(root,text="Invalid Username or Face id error",fg="white",bg="crimson",font=("Times new Roman",11),justify="center")
+			errorlabel.place(x=330,y=500)
+		else:
+			#root.destroy()
+			#bootwindow()
+			print("bootwindow shutdown")
 	buttonok=Button(root,text="LOGIN",height=2,width=10,command=checker,bg="#3D5AFE",fg="white",relief=RIDGE,font=("Times new Roman Bolder",12))
 	newacc=Button(root,relief=RIDGE,text="CREATE NEW ACCOUNT",height=1,width=len("		CREATE NEW ACCOUNT		"),command=newaccount,bg="#3D5AFE",fg="white",font=("Times new Roman Bold",11))
 	username=Entry(root,width=40-5,borderwidth=0,font=("Times new Roman Bold",13),fg="#000000")
@@ -478,17 +476,31 @@ def readsections():
 				line=line.replace("\n",'')
 				id.append(line)
 		usernamestr=username.get()
-		passwordstr=password.get()
+		#passwordstr=password.get()
 		print(id)
-		usernamestr=usernamestr+" "+passwordstr
+		in_flag=False
+		#usernamestr=usernamestr+" "+passwordstr
 		print(usernamestr)
-		if usernamestr==de_encryption(id[0]):
+		if usernamestr in id[0] :
 			root.destroy()
-			readsectionfiles()
-		else:
-			tkinter.messagebox.showinfo("Error", "Username or Password Not Valid !!")
+			FA=FACE_AUTH()
+			stat=FA.face_authenticate(usernamestr)
+			print("Status from readsectionfiles -> ",stat)
+			if True in stat :
+				in_flag= True
+			else:
+				in_flag=False
+			
+		elif in_flag == False:
+			tkinter.messagebox.showinfo("Error", "Face ID Error !!")
+			root.destroy()
+		elif usernamestr == id[0]:
+			tkinter.messagebox.showinfo("Error", "Username Not Valid !!")
 			root.destroy()
 			print("ERROR")
+		elif in_flag==True and usernamestr == id[0]:
+			readsectionfiles()
+			root.destroy()
 		'''print(infocpy)
 		usernamestr=usernamestr+" "+passwordstr
 		print(usernamestr)
